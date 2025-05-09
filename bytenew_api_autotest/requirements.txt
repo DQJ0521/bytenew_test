@@ -1,0 +1,4 @@
+requests
+xlrd
+ddt
+xonsh
