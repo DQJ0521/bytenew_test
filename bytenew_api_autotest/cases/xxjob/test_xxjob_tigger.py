@@ -18,7 +18,13 @@ class MyTestCase(unittest.TestCase):
     #@ddt.data(*cases)
     def test_xxjob_dy_refundApply(self):
         '''
-                执行 抖音店铺 的售后单拉取定时任务
+                执行 店铺 的售后单拉取定时任务
+                抖音："id": "355"
+                京东："id": "357"
+                快手："id": "496"
+                拼多多："id": "359"
+                淘宝："id": "362"
+                天猫："id": "1367"
         '''
         url = config.xxjob_host+"/jobinfo/trigger"
         header = {'Content-Type': 'application/x-www-form-urlencoded', "Cookie": self.xxjob_pre_token}
