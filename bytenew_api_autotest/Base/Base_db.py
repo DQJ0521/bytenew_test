@@ -1,11 +1,15 @@
 # -*- coding: UTF-8 -*-
 import MySQLdb
 import psycopg2
-import runs
+from typing import Optional, Union
 
 import common.commons as commons
 
 class DB():
+    def __init__(self):
+        self.logs = commons.Common.get_logs()
+        self.connection: Optional[Union[MySQLdb.Connection, psycopg2.extensions.connection]] = None
+        self.cursor: Optional[Union[MySQLdb.cursors.Cursor, psycopg2.extensions.cursor]] = None
 
     @classmethod
     def db_connect(cls, db_banniu_book_conn=None):

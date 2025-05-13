@@ -1,8 +1,9 @@
 #_*_encoding:utf-8_*_
 import hashlib
 import unittest
-from Base.Base_Page import Base
 import json
+from Base.Base_Page import Base
+import config.config as config
 
 class Get_token():
     # 类属性缓存不同服务的 Token
@@ -22,9 +23,9 @@ class Get_token():
                 s = Base()
                 result = s.requests_type(
                     method='POST',
-                    url='https://lg-cw-pre.bytenew.com/api/user/normalUserLogin',
+                    url=config.cw_host+'/api/user/normalUserLogin',
                     headers={'lg-cw-client': '1', 'Content-Type': 'application/json'},
-                    data=json.dumps({"loginPwd": "YC888888", "mobile": "13588888888"})
+                    data=json.dumps({"mobile": config.cw_mobile, "loginPwd": config.cw_loginPwd})
                 )
                 # 校验 HTTP 状态码
                 if result.status_code != 200:
@@ -52,9 +53,9 @@ class Get_token():
                 s = Base()
                 result = s.requests_type(
                     method='POST',
-                    url='https://lg-artifact-admin-pre.bytenew.com/api/loginByName',
+                    url=config.admin_host+ '/api/loginByName',
                     headers={'Content-Type': 'application/json'},
-                    data=json.dumps({"loginName": "admin", "loginPwd": "lg123456"})
+                    data=json.dumps({"loginName": config.admin_loginName, "loginPwd": config.admin_loginPwd})
                 )
 
                 # 校验 HTTP 状态码
@@ -64,7 +65,7 @@ class Get_token():
                 # 解析 JSON
                 response = result.json()
                 if not response.get('success'):
-                    raise ValueError(f"业务逻辑失败: {response.get('errorMessage')}")
+                    raise ValueError(f"业务逻辑失败: {response}")
 
                 # 提取 Token
                 cls._admin_token = response['data']
@@ -86,9 +87,9 @@ class Get_token():
                 s = Base()
                 result = s.requests_type(
                     method='POST',
-                    url='https://lg-bm-login-pre.bytenew.com/api/login/loginByAccount',
+                    url= config.bm_host+'/api/login/loginByAccount',
                     headers={'Content-Type': 'application/json'},
-                    data=json.dumps({"mobile":"19855555555","loginPwd":"555555"})
+                    data=json.dumps({"mobile":config.bm_mobile,"loginPwd":config.bm_loginPwd})
                 )
 
                 # 检查 HTTP 状态码

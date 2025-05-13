@@ -43,9 +43,9 @@ class MyTestCase(unittest.TestCase):
         expected_res = pars['预期结果']
 
         result = Base().requests_type(method=method, url=url, headers=header,data=datas)
-        self.logs.info(f"响应数据：{result.json()}")
+        #self.logs.info(f"响应数据：{result.json()}")
 
-        #self.assertEqual(result.json()['success'], expected_res, "接口返回结果不符合预期")
+        self.assertEqual(result.json()['success'], expected_res, "接口返回结果不符合预期")
 
 if __name__ == '__main__':
     unittest.main()

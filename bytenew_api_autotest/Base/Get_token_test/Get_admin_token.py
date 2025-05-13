@@ -1,20 +1,26 @@
 import hashlib
 import unittest
-from Base.Base_Page import Base
 import json
-import common.commons as common
+from Base.Base_Page import Base
+import config.config as config
+
+
 
 class Get_token():
+    """
+        获取物流神器admin登录的token
+        :return:
+    """
     _admin_token = None
     @classmethod
     def lg_artifact_admin_pre_token(cls):
         if cls._admin_token is None:
             try:
                 s = Base()
-                url = 'https://lg-artifact-admin-pre.bytenew.com/api/loginByName'
+                url = config.admin_host+ '/api/loginByName'
                 headers = {'Content-Type': 'application/json'}
                 #hashed_pwd = hashlib.md5(password.encode()).hexdigest()
-                data = json.dumps({"loginName": "admin", "loginPwd": "lg123456"})
+                data = json.dumps({"loginName": config.admin_loginName, "loginPwd": config.admin_loginPwd})
 
                 # 发送请求
                 result = s.requests_type(

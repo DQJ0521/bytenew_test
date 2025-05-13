@@ -11,11 +11,12 @@ from common.Get_time import Get_time
 from Base.Get_xxjob_token import Get_token as Get_xxjob_token
 from config import config
 
-'''
-杭州云贝-【抖音】紫貂的小店的拦退单拉取
-'''
+
 @ddt.ddt
 class MyTestCase(unittest.TestCase):
+    '''
+    杭州云贝-【抖音】紫貂的小店的拦退单拉取
+    '''
     cases = common.Common().ReadExcelTypeDict("lg_admin_update_dy.xlsx")
     @classmethod
     def setUpClass(cls):

@@ -4,14 +4,14 @@ from Base.Base_Page import Base
 import re
 
 class Get_token():
+    """
+        获取xxjob登录的Cookie
+        :return:
+    """
     _xxjob_token = None
 
     @classmethod
     def lg_xxjob_pre_token(cls):
-        """
-            获取xxjob登录的Cookie
-            :return:
-        """
         if cls._xxjob_token is None:
             try:
                 s = Base()

@@ -9,7 +9,6 @@ import ddt
 from Base.Get_token_test.Get_admin_token import Get_token
 from common.Get_time import Get_time
 
-
 @ddt.ddt
 class MyTestCase(unittest.TestCase):
     cases = common.Common().ReadExcelTypeDict("lg_admin_update_cases.xlsx")
@@ -23,16 +22,6 @@ class MyTestCase(unittest.TestCase):
         # if not cls.admin_token:
         #     raise ValueError("Token 获取失败，无法执行测试")
         # cls.logs.info(f"Token 获取成功: {cls.admin_token}")
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.logs.info("========= 测试结束 =========")
-
-    def setUp(self):
-        self.logs.info(f"开始用例: {self._testMethodName }")
-
-    def tearDown(self):
-        self.logs.info(f"结束用例: {self._testMethodName }")
     @ddt.data(*cases)
     def test_lg_admin_company_updatePullTime(self,pars):
         # 动态显示用例名称（从Excel读取）

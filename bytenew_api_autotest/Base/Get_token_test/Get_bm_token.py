@@ -1,24 +1,25 @@
 import hashlib
 import json
 from Base.Base_Page import Base
+import config.config as config
 
 class Get_token():
+    """
+        获取物流神器-5.0登录的Cookie
+        :return:
+    """
     _bm_token = None
 
     @classmethod
     def lg_bm_pre_token(cls):
-        """
-            获取物流神器-5.0登录的Cookie
-            :return:
-        """
         if cls._bm_token is None:
             try:
                 s = Base()
                 result = s.requests_type(
                     method='POST',
-                    url='https://lg-bm-login-pre.bytenew.com/api/login/loginByAccount',
+                    url= config.bm_host+'/api/login/loginByAccount',
                     headers={'Content-Type': 'application/json'},
-                    data=json.dumps({"mobile":"19855555555","loginPwd":"555555"})
+                    data=json.dumps({"mobile":config.bm_mobile,"loginPwd":config.bm_loginPwd})
                 )
 
                 # 检查 HTTP 状态码
