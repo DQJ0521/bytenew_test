@@ -5,7 +5,7 @@ import ddt
 
 import config.config as config
 #from Base.Get_token_pre import Get_token
-from Base.Get_token_test.Get_cw_token import Get_token
+from Base.Base_test.Get_cw_token import Get_token
 
 
 @ddt.ddt

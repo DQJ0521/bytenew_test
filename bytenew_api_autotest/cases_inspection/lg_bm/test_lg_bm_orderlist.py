@@ -4,7 +4,7 @@ import common.commons as common
 from Base.Base_Page import Base
 import ddt
 from Base.Get_token_pre import Get_token
-#from Base.Get_token_test.Get_bm_token import Get_token
+#from Base.Base_test.Get_bm_token import Get_token
 import config.config as config
 @ddt.ddt
 class MyTestCase(unittest.TestCase):
@@ -29,11 +29,11 @@ class MyTestCase(unittest.TestCase):
         self.logs.info(f"结束用例: {self._testMethodName}")
 
     @ddt.data(*cases)
-    def test_bm_intercept_order(self,pars):
+    def test_bm_orderlist(self,pars):
         # 动态显示用例名称（从Excel读取）
         case_name = pars.get('casename')
         self.logs.info(f"▶▶▶ 执行用例: {case_name} ◀◀◀")
-        self.logs.debug(f"测试数据明细: {pars}")
+        #self.logs.debug(f"测试数据明细: {pars}")
 
         url = config.bm_host+ pars['url']
         header = {'Content-Type': 'application/json','lg-bm-client':'1',"lg-bm-token":self.bm_cookie}
@@ -43,7 +43,7 @@ class MyTestCase(unittest.TestCase):
         expected_res = pars['预期结果']
 
         result = Base().requests_type(method=method, url=url, headers=header,data=datas)
-        self.logs.info(f"响应结果：{result.status_code}")
+        #self.logs.info(f"响应结果：{result.status_code}")
 
         self.assertEqual(result.json()['success'],expected_res,"接口返回结果不符合预期")
 

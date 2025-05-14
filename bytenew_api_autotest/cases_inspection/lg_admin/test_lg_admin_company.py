@@ -4,7 +4,7 @@ import common.commons as common
 from Base.Base_Page import Base
 import ddt
 from Base.Get_token_pre import Get_token
-#from Base.Get_token_test.Get_admin_token import Get_token
+#from Base.Base_test.Get_admin_token import Get_token
 
 
 @ddt.ddt

@@ -1,5 +1,5 @@
 # test_example.py
-from Base.Base_db_demo import DB
+from Base.Base_test.Base_db_demo import DB
 import unittest
 import common.commons as common
 

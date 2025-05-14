@@ -1,10 +1,13 @@
 import logging,time
 import os
+from typing import Optional
 
 import pandas as pd
 from logging.handlers import TimedRotatingFileHandler
-from HTMLTestReportCN import HTMLTestRunner
+from unittestreport import TestRunner
+#from HTMLTestReportCN import HTMLTestRunner
 from pathlib import Path
+import unittest
 
 
 base_path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
@@ -80,54 +83,73 @@ class Common():
 
 
 # 封装一个HTML报告方法
-    def GetHtmlResult(self, suite, title, path='test_reports'):
+    def generate_html_report(self, suite: unittest.TestSuite, title: str, report_dir: str = 'report') -> Optional[
+        str]:
+        """
+        生成HTML测试报告并返回统计信息
+        """
         try:
-            # 路径：指向项目根目录
+            # 创建报告目录
             project_root = Path(__file__).parent.parent.absolute()
-            report_dir = project_root / path
-            os.makedirs(report_dir, exist_ok=True)
+            output_dir = project_root / report_dir
+            os.makedirs(output_dir, exist_ok=True)
 
-            report_name = f"{title}_{time.strftime('%Y-%m-%d-%H-%M-%S')}.html"
-            report_path = report_dir / report_name
+            # 生成报告文件名
+            timestamp = time.strftime("%Y%m%d_%H%M%S")
+            filename = f"{title}_{timestamp}.html"
+            report_path = output_dir / filename
 
-            with open(report_path, 'wb') as f:
-                runner = HTMLTestRunner(
-                    stream=f, title=title, description='接口测试报告', tester='哈比'
-                )
-                result = runner.run(suite)
-                self.get_logs().info(f"执行用例数: {result.testsRun}, 失败: {len(result.failures)}")
+            # 初始化TestRunner并运行测试
+            runner = TestRunner(
+                suite=suite,
+                filename=str(report_path),
+                report_dir=str(output_dir),
+                title=title,
+                tester="自动化测试团队",
+                desc="接口自动化测试报告",
+                templates=1
+            )
+            runner.run()
 
-            self.get_logs().info(f"报告路径: {report_path}")
+            # #发送结果到邮箱
+            '''
+            host： smtp服务器地址
+            port：端口
+            user：邮箱账号
+            password：smtp服务授权码
+            to_addrs：收件人邮箱地址（一个收件人传字符串，多个收件人传列表）
+            注意：目前发送邮件只支持465和25端口
+            '''
+            # runner.send_email(
+            #     host="smtp.qq.com",
+            #     port=465,
+            #     user="",
+            #     password="",
+            #     to_addrs=""
+            # )
+
+            #发送钉钉通知
+            url = "https://oapi.dingtalk.com/robot/send?access_token=80777bc3b2be980c46dc5fcaeac5afff7aabf91c8cb59f55b4cc76fbc272f585"
+            runner.dingtalk_notice(url=url,secret="SEC5059b41b3699f5714a217a38b9af49e67cb58659035e053214b07d1a5c00c162")
+
+            # # 统计测试结果
+            # passed = failed = error = skipped = 0
+            # for case_result in runner.result:
+            #     if case_result.status == 'success':
+            #         passed += 1
+            #     elif case_result.status == 'failure':
+            #         failed += 1
+            #     elif case_result.status == 'error':
+            #         error += 1
+            #     elif case_result.status == 'skip':
+            #         skipped += 1
+            # total = passed + failed + error + skipped
+            #
+            # print(f"测试统计: 总数={total}, 通过={passed}, 失败={failed}, 错误={error}, 跳过={skipped}")
+
             return str(report_path)
+
         except Exception as e:
-            self.get_logs().error(f"生成报告失败: {str(e)}", exc_info=True)
+            print(f"报告生成失败: {str(e)}")
             return None
-#     def GetHtmlResult(self,suite,title,path = 'test_reports'):
-#
-#         project_root = Path(__file__).parent.absolute()
-#         report_dir = project_root/path
-#         os.makedirs(report_dir,exist_ok=True)
-#         print(f"报告目录：{report_dir}")
-#
-#         report_name =f"{title}_{time.strftime('%Y-%m-%d-%H-%M-%S')}.html"
-#         report_path = report_dir/report_name
-#         #report_path = os.path.join(path,report_name)
-#
-#         try:
-#             with open(report_path, 'wb') as f:
-#                 runner = HTMLTestRunner(
-#                     stream=f, description='用户相关接口测试报告', tester='哈比', title=title
-#                 )
-#                 result = runner.run(suite)
-#                 print(f"测试结果: {result.testsRun} 条用例执行，失败 {len(result.failures)} 条")
-#             print(f"报告已生成: {report_path}")
-#             return str(report_path)
-#         except Exception as e:
-#             print(f"生成报告异常: {str(e)}")
-#             return None
-#
-#         # path = path + '/' + time.strftime('%Y-%m-%d-%H-%M-%S') + '.html'
-#         # with open(path,'wb+') as f:
-#         #     run = HTMLTestReportCN.HTMLTestRunner(stream=f,description='用户相关接口测试报告',tester='哈比',title = title)
-#         #     run.run(suite)
 

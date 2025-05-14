@@ -3,7 +3,6 @@ from typing import Union, Dict, List, Any
 def extract_nested_ids(data: Union[Dict, List], key: str = 'id') -> List[Any]:
     """
     递归提取嵌套结构中的指定键值
-
     Args:
         data: 包含嵌套结构的字典/列表
         key: 要提取的键名 (默认: 'id')
