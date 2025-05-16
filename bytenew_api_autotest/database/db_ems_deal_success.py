@@ -21,5 +21,6 @@ print(res)
 #cursor.execute(sql_deal_success)
 # data2 = cursor.fetchone()
 # print(data2)
-db.close()
+db.cursor.close()
+db.connect.close()
 

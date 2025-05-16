@@ -13,7 +13,7 @@ class Get_token():
     _bm_token = None
 
     @classmethod
-    def lg_cw_pre_token(cls):
+    def lg_cw_token(cls):
         """
             获取云仓登录的token
             :return:
@@ -43,7 +43,7 @@ class Get_token():
         return cls._cw_token
 
     @classmethod
-    def lg_artifact_admin_pre_token(cls):
+    def lg_artifact_admin_token(cls):
         """
             获取物流神器admin登录的token
             :return:
@@ -77,7 +77,7 @@ class Get_token():
         return cls._admin_token
 
     @classmethod
-    def lg_bm_pre_token(cls):
+    def lg_bm_token(cls):
         """
             获取物流神器-5.0登录的token
             :return:

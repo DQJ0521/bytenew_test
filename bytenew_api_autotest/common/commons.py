@@ -81,12 +81,49 @@ class Common():
 
         return new_list
 
+    def ReadExcelTypeDict_sliced(self, file_name, path=read_xlrd, start_row=0, end_row=None):
+        """
+        读取 Excel 数据并转换为字典列表（支持指定行数范围）
+
+        :param file_name: 文件名
+        :param path: 文件路径（默认读取配置中的路径）
+        :param start_row: 起始行号 (从0开始, 默认0)
+        :param end_row: 结束行号 (不包含此行, 默认None表示最后一行)
+        :return: 字典列表
+        """
+        full_path = os.path.join(path, file_name)
+        print(f"完整文件路径: {full_path}")
+
+        try:
+            excel_file = pd.ExcelFile(full_path, engine="openpyxl")
+        except Exception as e:
+            print(f"读取 Excel 失败: {e}")
+            return []
+
+        new_list = []
+        for sheet_name in excel_file.sheet_names:
+            # 读取整个Sheet
+            df = pd.read_excel(excel_file, sheet_name=sheet_name, header=0)
+
+            # 切片指定行数（处理边界）
+            max_row = len(df)
+            _end_row = end_row if end_row is not None else max_row
+            _end_row = min(_end_row, max_row)  # 避免越界
+
+            sliced_df = df.iloc[start_row:_end_row]
+
+            # 转换为字典
+            sheet_data = sliced_df.to_dict('records')
+            new_list.extend(sheet_data)
+            print(f"Sheet [{sheet_name}] 读取行范围: {start_row}-{_end_row}, 实际行数: {len(sheet_data)}")
+
+        return new_list
 
 # 封装一个HTML报告方法
-    def generate_html_report(self, suite: unittest.TestSuite, title: str, report_dir: str = 'report') -> Optional[
+    def generate_html_report(self, suite: unittest.TestSuite, title: str, report_dir: str=report_html) -> Optional[
         str]:
         """
-        生成HTML测试报告并返回统计信息
+        生成HTML测试报告
         """
         try:
             # 创建报告目录
@@ -128,24 +165,9 @@ class Common():
             #     to_addrs=""
             # )
 
-            #发送钉钉通知
-            url = "https://oapi.dingtalk.com/robot/send?access_token=80777bc3b2be980c46dc5fcaeac5afff7aabf91c8cb59f55b4cc76fbc272f585"
-            runner.dingtalk_notice(url=url,secret="SEC5059b41b3699f5714a217a38b9af49e67cb58659035e053214b07d1a5c00c162")
-
-            # # 统计测试结果
-            # passed = failed = error = skipped = 0
-            # for case_result in runner.result:
-            #     if case_result.status == 'success':
-            #         passed += 1
-            #     elif case_result.status == 'failure':
-            #         failed += 1
-            #     elif case_result.status == 'error':
-            #         error += 1
-            #     elif case_result.status == 'skip':
-            #         skipped += 1
-            # total = passed + failed + error + skipped
-            #
-            # print(f"测试统计: 总数={total}, 通过={passed}, 失败={failed}, 错误={error}, 跳过={skipped}")
+            # #发送钉钉通知
+            # url = "https://oapi.dingtalk.com/robot/send?access_token=80777bc3b2be980c46dc5fcaeac5afff7aabf91c8cb59f55b4cc76fbc272f585"
+            # runner.dingtalk_notice(url=url,secret="SEC5059b41b3699f5714a217a38b9af49e67cb58659035e053214b07d1a5c00c162")
 
             return str(report_path)
 

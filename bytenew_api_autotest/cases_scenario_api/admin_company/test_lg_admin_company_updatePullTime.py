@@ -5,9 +5,10 @@ import unittest
 import common.commons as common
 from Base.Base_Page import Base
 import ddt
-#from Base.Get_token_pre import Get_token
-from Base.Base_test.Get_admin_token import Get_token
+from Base.Get_token import Get_token
+#from Base.Base_test.Get_admin_token import Get_token
 from common.Get_time import Get_time
+import config.config as config
 
 @ddt.ddt
 class MyTestCase(unittest.TestCase):
@@ -16,12 +17,8 @@ class MyTestCase(unittest.TestCase):
     def setUpClass(cls):
         cls.logs = common.Common().get_logs()
         cls.logs.info("========= 测试开始 =========")
-        cls.admin_token = Get_token.lg_artifact_admin_pre_token()
+        cls.admin_token = Get_token.lg_artifact_admin_token()
 
-        # cls.logs.info(f"获取到 Token: {cls.admin_token}")
-        # if not cls.admin_token:
-        #     raise ValueError("Token 获取失败，无法执行测试")
-        # cls.logs.info(f"Token 获取成功: {cls.admin_token}")
     @ddt.data(*cases)
     def test_lg_admin_company_updatePullTime(self,pars):
         # 动态显示用例名称（从Excel读取）
@@ -29,10 +26,13 @@ class MyTestCase(unittest.TestCase):
         self.logs.info(f"▶▶▶ 执行用例: {case_name} ◀◀◀")
         #self.logs.debug(f"测试数据明细: {pars}")
 
-        url = pars['url']
+        url = config.admin_host+ pars['url']
         headers = {'Content-Type': 'application/json',"token":self.admin_token }
         method = pars['请求方式']
         datas = json.loads(pars['body']) if isinstance(pars['body'], str) else pars['body'].copy()
+        # datas['companyId'] = config.admin_companyId
+        # datas['id'] = config.order_task_id
+        # datas['sellerId'] = config.sellerId
         # 获取当前时间并减 1 分钟
         datas['beginTime'] = Get_time.before_now(self)
         # 获取当前时间

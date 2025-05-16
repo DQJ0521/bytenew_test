@@ -3,18 +3,21 @@ import unittest
 import common.commons as common
 from Base.Base_Page import Base
 import ddt
-from Base.Get_token_pre import Get_token
+from Base.Get_token import Get_token
 #from Base.Base_test.Get_admin_token import Get_token
 
 
 @ddt.ddt
 class MyTestCase(unittest.TestCase):
+    '''
+        拉取公司列表，杭州云贝-店铺列表，杭州云贝-【淘宝】tb3062364902-订单拉取时间列表
+    '''
     cases = common.Common().ReadExcelTypeDict("lg_admin_cases.xlsx")
     @classmethod
     def setUpClass(cls):
         cls.logs = common.Common().get_logs()
         cls.logs.info("========= 测试开始 =========")
-        cls.admin_token = Get_token.lg_artifact_admin_pre_token()
+        cls.admin_token = Get_token.lg_artifact_admin_token()
 
     @classmethod
     def tearDownClass(cls):
@@ -27,12 +30,11 @@ class MyTestCase(unittest.TestCase):
         self.logs.info(f"结束用例: {self._testMethodName }")
     @ddt.data(*cases)
     def test_lg_admin_company(self,pars):
-        '''
-            拉取公司列表，杭州云贝-店铺列表，杭州云贝-【淘宝】tb3062364902-订单拉取时间列表
-        '''
+        self._testMethodDoc = pars.get('casename', '默认用例描述')
+
         # 动态显示用例名称（从Excel读取）
-        case_name = pars.get('casename')
-        self.logs.info(f"▶▶▶ 执行用例: {case_name} ◀◀◀")
+        #case_name = pars.get('casename')
+        #self.logs.info(f"▶▶▶ 执行用例: {case_name} ◀◀◀")
         #self.logs.debug(f"测试数据明细: {pars}")
 
         url = pars['url']

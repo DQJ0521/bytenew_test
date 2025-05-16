@@ -3,3 +3,4 @@ xlrd
 ddt
 xonsh
 unittestreport
+pyyaml
