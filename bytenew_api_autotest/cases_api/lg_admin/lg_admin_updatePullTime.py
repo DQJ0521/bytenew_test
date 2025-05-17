@@ -24,13 +24,13 @@ class updatePullTime():
         headers = {'Content-Type': 'application/json',"token":self.admin_token }
         method = 'POST'
         datas ={
-            "companyId": {companyId},
-            "id":{order_task_id},
-            "sellerId":{sellerId},
-            "source":'1',
-            "dataName":{dataName},
-            "beginTime":{beginTime},
-            "endTime":{endTime}
+            'companyId': {companyId},
+            'id':{order_task_id},
+            'sellerId':{sellerId},
+            'source':1,
+            'dataName':{dataName},
+            'beginTime':{beginTime},
+            'endTime':{endTime}
         }
         #self.logs.debug(f"data--->:{datas}")
         body = json.dumps(datas)
