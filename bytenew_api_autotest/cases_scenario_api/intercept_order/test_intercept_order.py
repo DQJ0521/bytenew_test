@@ -7,6 +7,7 @@ from Base.Base_Page import Base
 import ddt
 from Base.Get_token import Get_token
 #from Base.Base_test.Get_admin_token import Get_token
+from cases_api.xxjob.xxjob_tigger import xxjob_tigger
 from common.Get_time import Get_time
 from Base.Get_xxjob_token import Get_token as Get_xxjob_token
 from config import config
@@ -54,17 +55,19 @@ class MyTestCase(unittest.TestCase):
 
     def test_xxjob_dy_refundApply(self):
         '''
-            执行 抖音店铺 的售后单拉取定时任务
+                    执行 抖音店铺 的售后单拉取定时任务
+                '''
         '''
-        self.logs.info(f"▶▶▶ 执行操作: 执行 抖音店铺 的售后单拉取定时任务 ◀◀◀")
-        url = config.xxjob_host + "/jobinfo/trigger"
-        header = {'Content-Type': 'application/x-www-form-urlencoded', "Cookie": self.xxjob_pre_token}
-        method = 'POST'
-        datas = {"id": "355", "executorParam": "", "addressList": ""}
-        result = Base().requests_type(method=method, url=url, headers=header, data=datas)
-        self.logs.info(f"响应结果：{result.text}")
-
-        self.assertEqual(result.status_code, 200, "接口执行失败")
+            常用定时任务id：
+            店铺 的售后单拉取定时任务
+                抖音："id": "355"
+                京东："id": "357"
+                快手："id": "496"
+                拼多多："id": "359"
+                淘宝："id": "362"
+                天猫："id": "1367"
+        '''
+        xxjob_tigger.xxjob_excute(self, job_id='355')
 
 if __name__ == '__main__':
     unittest.main()
