@@ -18,7 +18,7 @@ class MyTestCase(unittest.TestCase):
         if cls._cached_group_ids is None:
             cls._cached_group_ids = []
 
-    def test_jobgroup_pageList(self):
+    def test_1_jobgroup_pageList(self):
         '''
             获取所有定时任务的群组id
         '''
@@ -44,7 +44,7 @@ class MyTestCase(unittest.TestCase):
 
         return self.__class__._cached_group_ids
 
-    def test_jobids(self):
+    def test_2_jobids(self):
         '''
             获取所有定时任务id
         '''
@@ -52,7 +52,7 @@ class MyTestCase(unittest.TestCase):
         all_job_ids = []
 
         if not self.__class__._cached_group_ids:
-            self.test_jobgroup_pageList()
+            self.test_1_jobgroup_pageList()
 
         for group_id in self.__class__._cached_group_ids:
             url = config.xxjob_host+"/jobinfo/pageList"

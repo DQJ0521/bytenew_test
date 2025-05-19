@@ -13,6 +13,7 @@ from cases_api.lg_admin.lg_admin_updatePullTime import updatePullTime
 
 
 class MyTestCase(unittest.TestCase):
+
     @classmethod
     def setUpClass(cls):
         cls.logs = common.Common().get_logs()
@@ -20,6 +21,11 @@ class MyTestCase(unittest.TestCase):
         cls.admin_token = Get_token.lg_artifact_admin_token()
 
     def test_lg_admin_company_updatePullTime(self):
+
+        # 获取当前时间并减 1 分钟
+        #datas['beginTime'] = Get_time.before_now(self)
+        # 获取当前时间
+        #datas['endTime'] = Get_time.now(self)
         updatePullTime.lg_admin_company_updatePullTime(self,
             companyId="1896075670343610370",
             order_task_id="1922574260093542402",

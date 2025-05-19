@@ -1,8 +1,6 @@
 from datetime import datetime, timedelta
 #import datetime
 import json
-import unittest
-import yaml
 import common.commons as common
 from Base.Base_Page import Base
 from Base.Get_token import Get_token
@@ -10,8 +8,10 @@ from Base.Get_token import Get_token
 from common.Get_time import Get_time
 import config.config as config
 
-
 class updatePullTime():
+    '''
+    更新店铺订单拉取时间 接口，给到其他case调用，调用时根据需求修改信息
+    '''
     @classmethod
     def setUpClass(cls):
         cls.logs = common.Common().get_logs()
@@ -38,5 +38,6 @@ class updatePullTime():
         #self.logs.info(f"响应数据：{result.json()}")
 
         #self.assertEqual(result.json()['success'], True, "接口返回结果不符合预期")
+        return result
 
 

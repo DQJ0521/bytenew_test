@@ -1,63 +1,42 @@
-from datetime import datetime, timedelta
-#import datetime
-import json
 import unittest
 import common.commons as common
-from Base.Base_Page import Base
-import ddt
-from Base.Get_token import Get_token
-#from Base.Base_test.Get_admin_token import Get_token
-from cases_api.xxjob.xxjob_tigger import xxjob_tigger
 from common.Get_time import Get_time
+from Base.Get_token import Get_token
 from Base.Get_xxjob_token import Get_token as Get_xxjob_token
 from config import config
+from cases_api.lg_admin.lg_admin_updatePullTime import updatePullTime
+from cases_api.xxjob.xxjob_tigger import xxjob_tigger
 
 
-@ddt.ddt
 class MyTestCase(unittest.TestCase):
     '''
-    杭州云贝-【抖音】紫貂的小店的拦退单拉取
+    拦退单拉取
     '''
-    cases = common.Common().ReadExcelTypeDict("lg_admin_update_dy.xlsx")
     @classmethod
     def setUpClass(cls):
         cls.logs = common.Common().get_logs()
-        cls.logs.info("========= 测试开始 =========")
         cls.admin_token = Get_token.lg_artifact_admin_token()
-        cls.logs.info(f"cookie获取结果: {cls.admin_token}")
         cls.xxjob_pre_token = Get_xxjob_token.lg_xxjob_pre_token()
-        cls.logs.info(f"cookie获取结果: {cls.xxjob_pre_token}")
-    @ddt.data(*cases)
-    def test_lg_admin_updatePullTime_dy_refundApply(self,pars):
+    def test_1_lg_admin_updatePullTime_dy_refundApply(self):
         '''
-        修改杭州云贝-【抖音】紫貂的小店 的售后单拉取时间
+        修改售后单拉取时间
         '''
-        # 动态显示用例名称（从Excel读取）
-        case_name = pars.get('casename')
-        self.logs.info(f"▶▶▶ 执行操作: {case_name} ◀◀◀")
-        #self.logs.debug(f"测试数据明细: {pars}")
+        beginTime = Get_time.before_now(self)
+        endTime = Get_time.now(self)
+        # 三青小小号公司-【抖音】松山棉店内衣旗舰店的售后单拉取时间
+        updatePullTime.lg_admin_company_updatePullTime(self,
+                                                       companyId="1896075670343610370",
+                                                       order_task_id="1922574260093542402",
+                                                       sellerId="1922574256859734017",
+                                                       dataName="refundApply",
+                                                       beginTime="2025-05-16 14:33:13",
+                                                       endTime="2025-05-16 14:33:13"
+                                                       )
 
-        url = pars['url']
-        headers = {'Content-Type': 'application/json',"token":self.admin_token }
-        method = pars['请求方式']
-        datas = json.loads(pars['body']) if isinstance(pars['body'], str) else pars['body'].copy()
-        # 获取当前时间并减 1 分钟
-        datas['beginTime'] = Get_time.before_now(self)
-        # 获取当前时间
-        datas['endTime'] = Get_time.now(self)
-        body = json.dumps(datas)
-        expected_res = pars['预期结果']
 
-        result = Base().requests_type(method=method, url=url, headers=headers,data=body)
-        self.logs.info(f"响应数据：{result.json()}")
-
-        self.assertEqual(result.json()['success'], expected_res, "接口返回结果不符合预期")
-
-    def test_xxjob_dy_refundApply(self):
+    def test_2_xxjob_dy_refundApply(self):
         '''
-                    执行 抖音店铺 的售后单拉取定时任务
-                '''
-        '''
+        执行 抖音店铺 的售后单拉取定时任务
             常用定时任务id：
             店铺 的售后单拉取定时任务
                 抖音："id": "355"

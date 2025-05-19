@@ -12,6 +12,10 @@ import config.config as config
 
 @ddt.ddt
 class MyTestCase(unittest.TestCase):
+    '''
+    修改店铺的订单拉取时间
+    店铺及订单类型信息从excel表格中指定行数获取
+    '''
     cases = common.Common().ReadExcelTypeDict_sliced(file_name="lg_admin_update_cases.xlsx",start_row=2,end_row=3)
     @classmethod
     def setUpClass(cls):
