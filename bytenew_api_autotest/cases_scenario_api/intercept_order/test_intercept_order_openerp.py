@@ -14,6 +14,7 @@ import config.config as config
 @ddt.ddt
 class MyTestCase(unittest.TestCase):
     '''
+    此case未完成
     开启erp的公司（杭州云贝-班牛）的拦截模拟：
     '''
     cases = common.Common().ReadExcelTypeDict_sliced(file_name="lg_admin_update_cases.xlsx",start_row=2,end_row=3)

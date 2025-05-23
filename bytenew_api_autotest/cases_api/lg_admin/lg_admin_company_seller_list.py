@@ -2,27 +2,47 @@ from datetime import datetime, timedelta
 #import datetime
 import json
 import unittest
-import common.commons as common
 from Base.Base_Page import Base
 from Base.Get_token import Get_token
 #from Base.Base_test.Get_admin_token import Get_token
 import config.config as config
+import common.commons as commons
 
 
-class sellerlist():
+class list():
     '''
     根据公司id获取该公司下所有店铺信息
     '''
-    @classmethod
-    def setUpClass(cls):
-        cls.logs = common.Common().get_logs()
-        cls.logs.info("========= 测试开始 =========")
-        cls.admin_token = Get_token.lg_artifact_admin_token()
+    _admin_token = None
 
-    def lg_admin_company_sellerlist(self,companyId):
+    @classmethod
+    def _init_token(cls):
+        cls.logs = commons.Common().get_logs()
+        if not cls._admin_token:
+            cls._admin_token = Get_token.lg_artifact_admin_token()
+
+    @classmethod
+    def lg_admin_companylist(cls, companyId:str)->dict:
+
+        cls._init_token()
+
+        url = config.admin_host + '/api/company/pageList'
+        headers = {'Content-Type': 'application/json', "token": cls._admin_token}
+        method = 'POST'
+        data = {"companyId":companyId,"pageNum":'1',"pageSize":'10'}
+        body = json.dumps(data)
+        result = Base().requests_type(method=method, url=url, headers=headers, data=body)
+        # #打印出返回的日志
+        # commons.Common().get_logs().info(
+        #     f"任务触发请求:\nURL: {url}\n请求体: {data}\n响应状态: {result.status_code}\n响应内容: {result.text}"
+        # )
+        return result.json()
+
+    @classmethod
+    def lg_admin_sellerlist(cls,companyId:str)->dict:
 
         url = config.admin_host+ '/api/seller/pageList'
-        headers = {'Content-Type': 'application/json',"token":self.admin_token }
+        headers = {'Content-Type': 'application/json',"token":cls._admin_token }
         method = 'POST'
         data = {"pageNum":'1',"pageSize":'10',"total":'0',"sourceList":[],"sellerIdList":[],"companyId":companyId}
         #datas = json.loads(pars['body']) if isinstance(pars['body'], str) else pars['body'].copy()

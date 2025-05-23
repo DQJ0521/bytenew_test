@@ -10,7 +10,7 @@ from cases_api.xxjob.xxjob_tigger import xxjob_tigger
 
 class MyTestCase(unittest.TestCase):
     '''
-    拦退单拉取
+    拦退单拉取（手动维护所有信息）：此case待优化
     '''
     @classmethod
     def setUpClass(cls):
@@ -46,7 +46,7 @@ class MyTestCase(unittest.TestCase):
                 淘宝："id": "362"
                 天猫："id": "1367"
         '''
-        xxjob_tigger.xxjob_excute(self, job_id='355')
+        xxjob_tigger.trigger_job( job_id='355')
 
 if __name__ == '__main__':
     unittest.main()

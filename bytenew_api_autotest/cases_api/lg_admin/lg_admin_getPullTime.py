@@ -4,14 +4,14 @@ import common.commons
 import config.config as config
 from Base.Get_token import Get_token
 from Base.Base_Page import Base
-import common.commons as common
+import common.commons as commons
 class getPullTime():
     '''
     根据店铺id获取该店铺下所有订单拉取更新时间
     '''
     @classmethod
     def setUpClass(cls):
-        cls.logs = common.Common.get_logs()
+        cls.logs = commons.Common.get_logs()
         cls.admin_token = Get_token.lg_artifact_admin_token()
 
     def lg_admin_getPullTime(self,sellerId):

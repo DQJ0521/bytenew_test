@@ -69,7 +69,7 @@ class Get_token():
 
                 # 提取 Token
                 cls._admin_token = response['data']
-                #print(f"[INFO] Token 已缓存: {cls._bm_token}")
+                print(f"[INFO] Token 已缓存: {cls._bm_token}")
                 return cls._admin_token
             except Exception as e:
                 print(f"[ERROR] 获取 Token 失败: {str(e)}")
